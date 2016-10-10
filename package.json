@@ -1,0 +1,23 @@
+{
+  "name": "angular-transfer-box",
+  "version": "1.0.0",
+  "description": "Angular Directive for Component Tranfer in antd",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sudazx/angular-transfer-box.git"
+  },
+  "keywords": [
+    "angular",
+    "transfer"
+  ],
+  "author": "Zero",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sudazx/angular-transfer-box/issues"
+  },
+  "homepage": "https://github.com/sudazx/angular-transfer-box#readme"
+}
