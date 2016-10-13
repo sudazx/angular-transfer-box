@@ -4,7 +4,7 @@ Angular Transfer Box was created to address a common demand that choose some dat
 
 *Requirement:* AngularJS 1.3+
 
-*File Size:* v1.0.0
+*File Size:* v1.2.0
 
 * *js:* raw 14.1kb, minfied 7.28kb
 * *css:* 5.18kb

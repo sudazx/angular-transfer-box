@@ -1,6 +1,6 @@
 {
   "name": "angular-transfer-box",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Angular Directive for Component Tranfer in antd",
   "main": "index.js",
   "scripts": {
