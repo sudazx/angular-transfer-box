@@ -1,10 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-
-</body>
-</html>
+<div class="transfer {{::option.classes}} {{::option.orientation}}">
+    <transfer-list items="source"
+                   render="option.render"
+                   title="{{::option.titles.origin}}"
+                   show-search="option.showSearch"
+                   search-placeholder="{{::option.searchPlaceholder}}"
+                   not-found-content="{{::option.notFoundContent}}">
+    </transfer-list>
+    <transfer-operation change="onChange(direction)"
+                        disabled="disabled">
+    </transfer-operation>
+    <transfer-list items="targetSource"
+                   render="option.render"
+                   title="{{::option.titles.target}}"
+                   show-search="option.showSearch"
+                   search-placeholder="{{::option.searchPlaceholder}}"
+                   not-found-content="{{::option.notFoundContent}}">
+    </transfer-list>
+</div>
