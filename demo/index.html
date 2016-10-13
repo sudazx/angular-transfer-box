@@ -2,9 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>Demo for Angular Transfer Box</title>
+    <link rel="stylesheet" href="../node_modules/reset.css/reset.css"/>
+    <link rel="stylesheet" href="../dist/angular-transfer-box.css"/>
+    <script type="text/javascript" src="../node_modules/angular/angular.min.js"></script>
+    <script type="text/javascript" src="../dist/angular-transfer-box.js"></script>
+    <script type="text/javascript" src="./index.js"></script>
 </head>
-<body>
+<body ng-app="angular-transfer-demo">
+    <div ng-controller="demoCtrl"
+         style="width: 100%;padding: 10px 40px;">
 
+        <transfer origin-source="dataSource"
+                  target-keys="targetKeys"
+                  option="transferBoxOption"></transfer>
+
+        <p style="margin-top: 30px">targetKeys = {{targetKeys}}</p>
+
+    </div>
 </body>
 </html>

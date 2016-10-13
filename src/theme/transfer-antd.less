@@ -1,3 +1,7 @@
+*,*::after,*::before{
+  box-sizing: border-box;
+}
+
 .transfer {
   position: relative;
   line-height: 1.5;
@@ -175,11 +179,27 @@
   display: inline-block;
   overflow: hidden;
   margin: 0 8px;
+  padding: 10px 0;
   vertical-align: middle;
 
   button {
     display: block;
     margin-bottom: 4px;
+    cursor: pointer;
+    background-color: #2db7f5;
+    color: #fff;
+    padding: 2px 7px;
+    border: 1px solid #2db7f5;
+    border-radius: 4px;
+    -webkit-transition: all .3s cubic-bezier(.645,.045,.355,1);
+    -moz-transition: all .3s cubic-bezier(.645,.045,.355,1);
+    transition: all .3s cubic-bezier(.645,.045,.355,1);
+    &:disabled{
+      border-color:#d9d9d9;
+      cursor: not-allowed;
+      background-color: #f7f7f7;
+      color: #ccc;
+    }
   }
 }
 
@@ -214,4 +234,24 @@
   color: #cccccc;
   text-align: center;
   height: 100%;
+}
+
+// for vertical alignment
+.transfer.vertical{
+
+  .transfer-list,.transfer-operation{
+    display: block;
+  }
+
+  .transfer-operation{
+    text-align: center;
+    button {
+      display: inline-block;
+      -webkit-transform: rotate(90deg);
+      -moz-transform: rotate(90deg);
+      -ms-transform: rotate(90deg);
+      -o-transform: rotate(90deg);
+      transform: rotate(90deg);
+    }
+  }
 }

@@ -1,10 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+<div class="transfer-list">
 
-</body>
-</html>
+    <div class="transfer-list-header">
+            <span class="transfer-checkbox" ng-click="headerCheck();"
+                  ng-class="{checked :'transfer-checkbox-checked',
+                            indeterminate : 'transfer-checkbox-indeterminate'}[getHeaderState()]">
+                <span class="transfer-checkbox-inner"></span>
+            </span>
+            <span class="transfer-list-header-selected">
+                <span>
+                    <span ng-hide="getCheckedNumber() == 0">
+                        <span ng-bind="getCheckedNumber()"></span>
+                        <span>/</span>
+                    </span>
+                    <span ng-bind="items.length"></span>
+                    <span>items</span>
+                </span>
+                <span class="transfer-list-header-title" ng-bind="title"></span>
+            </span>
+    </div>
+
+    <div class="transfer-list-body" ng-class="{'transfer-list-body-with-search':showSearch}">
+        <!-- Search Box-->
+        <div class="transfer-list-search-wrapper" ng-if="showSearch">
+            <div>
+                <input class="transfer-list-search"
+                       placeholder="{{::searchPlaceholder}}"
+                       ng-init="searchContent"
+                       ng-keyup="searchKeyUp($event)"/>
+                <span class="transfer-list-search-action">
+                    <i class="fa fa-search" ng-if="!searchContent"></i>
+                    <i class="fa fa-close" ng-if="searchContent" ng-click="clearSearch();" style="cursor: pointer"></i>
+                </span>
+            </div>
+        </div>
+        <!-- Content List -->
+        <ul class="transfer-list-content">
+            <li ng-repeat="listItem in items track by listItem.item.key"
+                ng-click="toggleItem(listItem);"
+                class="transfer-list-content-item"
+                ng-class="{'highlight':listItem.highlight}"
+                ng-hide="showSearch && !listItem.show">
+                <span class="transfer-checkbox"
+                      ng-class="{'transfer-checkbox-checked': listItem.selected}">
+                    <span class="transfer-checkbox-inner"></span>
+                </span>
+                <span ng-bind="innerRender(listItem)"></span>
+            </li>
+            <div class="transfer-list-not-found"
+                 ng-bind="notFoundContent"
+                 ng-if="showNotFound"></div>
+
+        </ul>
+
+    </div>
+
+</div>
+
+

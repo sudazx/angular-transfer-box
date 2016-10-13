@@ -10,11 +10,11 @@ angular.module('angular-transfer-box').directive('transferList', function () {
 
         scope: {
             items: '=',
-            render: '&',
-            title: '@',
             showSearch : '=',
+            title: '@',
             searchPlaceholder : '@',
-            notFoundContent : '@'
+            notFoundContent : '@',
+            render: '&'
         },
 
         templateUrl: 'transfer/transfer-list.html',
@@ -116,6 +116,7 @@ angular.module('angular-transfer-box').directive('transferOperation', function()
             disabled : '='
         },
         templateUrl: 'transfer/transfer-operation.html'
+
     };
 });
 angular.module('angular-transfer-box').directive('transfer', function ($timeout) {
@@ -129,40 +130,33 @@ angular.module('angular-transfer-box').directive('transfer', function ($timeout)
         scope: {
             originSource: '=',
             targetKeys: '=',
-            render: '&',
-            titles: '=',
-            showSearch : '=',
-            searchPlaceholder : '@',
-            notFoundContent : '@',
-            classes : '@'
+            option : '='
         },
 
         templateUrl: 'transfer/transfer.html',
 
         link: function (scope) {
 
-            var defaultTitles = {
-                left: '源列表',
-                right: '目标列表'
+            var defaultOption = {
+                orientation: 'horizontal',
+                render : function(item){
+                    return item.key;
+                },
+                titles : {
+                    origin : 'Source List',
+                    target : 'Target List'
+                },
+                showSearch : true,
+                searchPlaceholder : 'Please enter your content',
+                notFoundContent : 'Not Found',
+                classes : ''
             };
 
-            scope.titles = scope.titles || defaultTitles;
-
-            scope.showSearch = scope.showSearch || false;
-
-            scope.searchPlaceholder = scope.searchPlaceholder || '请输入搜素内容';
-
-            scope.notFoundContent = scope.notFoundContent || '列表为空';
+            scope.option = deepAssign({},defaultOption,scope.option);
 
             scope.targetSource = [];
 
             scope.source = [];
-
-            scope.defRender = function (item) {
-                return item.key;
-            };
-
-            scope.render = scope.render() || scope.defRender;
 
             scope.disabled = {
                 left: false,
@@ -173,12 +167,14 @@ angular.module('angular-transfer-box').directive('transfer', function ($timeout)
 
                 var tobemove = null, target = null;
 
+                console.info(direction);
+
                 switch (direction.toLowerCase()) {
-                    case "left" :
+                    case "source" :
                         tobemove = scope.source;
                         target = scope.targetSource;
                         break;
-                    case "right":
+                    case "target":
                         tobemove = scope.targetSource;
                         target = scope.source;
                         break;
@@ -190,7 +186,7 @@ angular.module('angular-transfer-box').directive('transfer', function ($timeout)
 
             };
 
-            scope.$watch('originSource',function(){
+            scope.$watch('originSource', function () {
 
                 scope.targetSource = wrapper(scope.originSource.filter(function (item) {
                     return scope.targetKeys && scope.targetKeys.indexOf(item.key) !== -1;
@@ -206,13 +202,13 @@ angular.module('angular-transfer-box').directive('transfer', function ($timeout)
              * update the state of operation buttons
              */
             scope.$watch('targetSource', function () {
-                scope.disabled.right = scope.targetSource.every(function (item) {
+                scope.disabled.target = scope.targetSource.every(function (item) {
                     return !item.selected;
                 });
-            },true);
+            }, true);
 
             scope.$watch('source', function () {
-                scope.disabled.left = scope.source.every(function (item) {
+                scope.disabled.source = scope.source.every(function (item) {
                     return !item.selected;
                 });
             }, true);
@@ -226,7 +222,7 @@ angular.module('angular-transfer-box').directive('transfer', function ($timeout)
                     return {
                         selected: false,
                         item: obj,
-                        show : true
+                        show: true
                     };
                 });
             }
@@ -262,11 +258,11 @@ angular.module('angular-transfer-box').directive('transfer', function ($timeout)
 
                 updateTargetKeys();
 
-                $timeout(function(){
-                    moveArray.forEach(function(item){
+                $timeout(function () {
+                    moveArray.forEach(function (item) {
                         item.highlight = false;
                     });
-                },150);
+                }, 150);
             }
 
             function updateTargetKeys() {
@@ -278,6 +274,64 @@ angular.module('angular-transfer-box').directive('transfer', function ($timeout)
                 unwrapper(scope.targetSource).forEach(function (item) {
                     scope.targetKeys.push(item.key);
                 });
+            }
+
+            function deepAssign(target){
+
+                var hasOwnProperty = Object.prototype.hasOwnProperty;
+
+                function toObject(val){
+                    if (val === null || val === undefined) {
+                        throw new TypeError('Cannot convert undefined or null to object');
+                    }
+
+                    return Object(val);
+                }
+
+                function assignKey(to, from, key){
+                    var val = from[key];
+
+                    if (val === undefined || val === null) {
+                        return;
+                    }
+
+                    if (hasOwnProperty.call(to, key)) {
+                        if (to[key] === undefined || to[key] === null) {
+                            throw new TypeError('Cannot convert undefined or null to object (' + key + ')');
+                        }
+                    }
+
+                    if (!hasOwnProperty.call(to, key) || !angular.isObject(val)) {
+                        to[key] = val;
+                    } else {
+                        to[key] = assign(Object(to[key]), from[key]);
+                    }
+                }
+
+                function assign(to,from){
+                    if (to === from) {
+                        return to;
+                    }
+
+                    from = Object(from);
+
+                    for (var key in from) {
+                        if (hasOwnProperty.call(from, key)) {
+                            assignKey(to, from, key);
+                        }
+                    }
+
+                    return to;
+                }
+
+
+                target = toObject(target);
+
+                for (var s = 1; s < arguments.length; s++) {
+                    assign(target, arguments[s]);
+                }
+
+                return target;
             }
 
         }
@@ -330,20 +384,20 @@ angular.module('transfer/transfer-operation.html',[]).run(["$templateCache", fun
 
     $templateCache.put('transfer/transfer-operation.html',
         '<div class="transfer-operation">\n'+
-        '   <button type="button" ng-disabled="disabled.right" ng-click="change({direction:\'right\'})">&lt;</button>\n'+
-        '   <button type="button" ng-disabled="disabled.left" ng-click="change({direction:\'left\'})">&gt;</button>\n' +
+        '   <button type="button" ng-disabled="disabled.target" ng-click="change({direction:\'target\'})">&lt;</button>\n'+
+        '   <button type="button" ng-disabled="disabled.source" ng-click="change({direction:\'source\'})">&gt;</button>\n' +
         '</div>');
 
 }]);
 angular.module('transfer/transfer.html',[]).run(["$templateCache", function($templateCache) {
 
     $templateCache.put('transfer/transfer.html',
-        '<div class="transfer {{::classes}}">\n'+
-        '   <transfer-list items="source" render="render" title="{{::titles.left}}" show-search="showSearch" search-placeholder="{{::searchPlaceholder}}" not-found-content="{{::notFoundContent}}">\n'+
+        '<div class="transfer {{::option.classes}} {{::option.orientation}}">\n'+
+        '   <transfer-list items="source" render="option.render" title="{{::option.titles.origin}}" show-search="option.showSearch" search-placeholder="{{::option.searchPlaceholder}}" not-found-content="{{::option.notFoundContent}}">\n'+
         '   </transfer-list>\n'+
         '   <transfer-operation change="onChange(direction)" disabled="disabled">\n'+
         '   </transfer-operation>\n'+
-        '   <transfer-list items="targetSource" render="render" title="{{::titles.right}}" show-search="showSearch" search-placeholder="{{::searchPlaceholder}}" not-found-content="{{::notFoundContent}}">\n'+
+        '   <transfer-list items="targetSource" render="option.render" title="{{::option.titles.target}}" show-search="option.showSearch" search-placeholder="{{::option.searchPlaceholder}}" not-found-content="{{::option.notFoundContent}}">\n'+
         '   </transfer-list>\n'+
         '</div>\n');
 

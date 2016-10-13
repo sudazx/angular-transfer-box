@@ -1,3 +1,3 @@
-/**
- * Created by zhou on 16/10/10.
- */
+require('./dist/angular-transfer-box.min.js');
+
+module.exports = require('./package.json').name;

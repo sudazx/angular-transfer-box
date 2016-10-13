@@ -148,11 +148,26 @@
   display: inline-block;
   overflow: hidden;
   margin: 0 8px;
+  padding: 10px 0;
   vertical-align: middle;
 }
 .transfer-operation button {
   display: block;
   margin-bottom: 4px;
+  cursor: pointer;
+  background-color: #2db7f5;
+  color: #fff;
+  padding: 2px 7px;
+  border: 1px solid #2db7f5;
+  border-radius: 4px;
+  -webkit-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+.transfer-operation button:disabled {
+  border-color: #d9d9d9;
+  cursor: not-allowed;
+  background-color: #f7f7f7;
+  color: #ccc;
 }
 .transfer-list-search-wrapper {
   position: absolute;
@@ -183,4 +198,16 @@
   color: #cccccc;
   text-align: center;
   height: 100%;
+}
+.transfer.vertical .transfer-list,
+.transfer.vertical .transfer-operation {
+  display: block;
+}
+.transfer.vertical .transfer-operation {
+  text-align: center;
+}
+.transfer.vertical .transfer-operation button {
+  display: inline-block;
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
 }
