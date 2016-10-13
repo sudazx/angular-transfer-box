@@ -75,8 +75,8 @@ angular-transfer-box support several kinds of settings with specify an obj `opti
 
 `angular-transfer-box` supports the following options:
 
-* orientation(String): the orientation between the transfer list, can be specified with `"horizontal(default)"` or `"vertical"`
-* render(Function): if you pass a complicated business-logic object into angular-tranfer-box, you may need this option to render what's you want. For example,
+* `orientation(String)`: the orientation between the transfer list, can be specified with `"horizontal(default)"` or `"vertical"`
+* `render(Function)`: if you pass a complicated business-logic object into angular-tranfer-box, you may need this option to render what's you want. For example,
 
 		var dataSource = [{
 			key : '1',
@@ -103,16 +103,16 @@ angular-transfer-box support several kinds of settings with specify an obj `opti
 		render = functon(obj){
 			return obj.key;
 		}
-* titles(Object): specified the `title` in each list, default
+* `titles(Object)`: specified the `title` in each list, default
 
 		titles : {
 			origin : 'Source List',
 			target : 'Target List'
 		}
-* showSearch(Boolean): toggle the search component in angular-transfer-box, default: `true`
-* searchPlaceholder(String): set the placeholder content of search input, default: `"Please enter your content"`
-* notFoundContent(String): set the empty list content, default: `"Not Found"`
-* classes(String): you can set this option to customize your styles, default: `""` 
+* `showSearch(Boolean)`: toggle the search component in angular-transfer-box, default: `true`
+* `searchPlaceholder(String)`: set the placeholder content of search input, default: `"Please enter your content"`
+* `notFoundContent(String)`: set the empty list content, default: `"Not Found"`
+* `classes(String)`: you can set this option to customize your styles, default: `""` 
 	
 
 
