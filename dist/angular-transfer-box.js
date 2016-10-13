@@ -119,7 +119,7 @@ angular.module('angular-transfer-box').directive('transferOperation', function()
 
     };
 });
-angular.module('angular-transfer-box').directive('transfer', function ($timeout) {
+angular.module('angular-transfer-box').directive('transfer', ['$timeout',function ($timeout) {
 
     return {
 
@@ -337,7 +337,7 @@ angular.module('angular-transfer-box').directive('transfer', function ($timeout)
         }
     };
 
-});
+}]);
 angular.module('transfer/transfer-list.html',[]).run(["$templateCache", function($templateCache) {
 
     $templateCache.put('transfer/transfer-list.html',
