@@ -1,4 +1,4 @@
-angular.module('TRANSFER_MODULE_NAME').directive('transfer', function ($timeout) {
+angular.module('TRANSFER_MODULE_NAME').directive('transfer', ['$timeout',function ($timeout) {
 
     return {
 
@@ -216,4 +216,4 @@ angular.module('TRANSFER_MODULE_NAME').directive('transfer', function ($timeout)
         }
     };
 
-});
+}]);
